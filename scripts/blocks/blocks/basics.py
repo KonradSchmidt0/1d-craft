@@ -1,0 +1,31 @@
+import pygame
+
+from scripts.CONSTANTS import BLOCK_SIZE_IN_PIXELS
+from scripts.blocks.Block import Block
+from scripts.blocks.interfaces.ICollidable import ICollidable
+from scripts.rendering.super_sprite import GameSprite
+
+
+class Air(Block):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
+class Stone(Block, ICollidable):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def get_game_sprite(self):
+        a = pygame.Surface((BLOCK_SIZE_IN_PIXELS, BLOCK_SIZE_IN_PIXELS))
+        a.fill((120, 120, 120))
+        return GameSprite(a, (0.5, 0.5))
+
+
+class Dirt(Block, ICollidable):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def get_game_sprite(self):
+        a = pygame.Surface((BLOCK_SIZE_IN_PIXELS, BLOCK_SIZE_IN_PIXELS))
+        a.fill((130, 90, 70))
+        return GameSprite(a, (0.5, 0.5))
