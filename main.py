@@ -1,11 +1,13 @@
 import random
 import sys
+
 import pygame
 
 from scripts.CONSTANTS import WORLD_SIZE_IN_BLOCKS, BLOCK_SIZE_IN_PIXELS
 from scripts.Olympus import Olympus
 from scripts.blocks.blocks.Grass import Grass
 from scripts.blocks.blocks.basics import Stone, Air, Dirt
+from scripts.entities.entities.player_cursor import PlayerCursor
 from scripts.entities.entities.TallFlowerSpore import RedFlowerSpore
 from scripts.entities.entities.player import Player
 from scripts.rendering.camera import Camera
@@ -29,17 +31,20 @@ def main():
     renderer_queue = RendererQueue()
 
     # --- World ---
-    player = Player(3.5, WORLD_SIZE_IN_BLOCKS / 2)
+    player = Player(3.5, WORLD_SIZE_IN_BLOCKS / 2, radius=0.2)
+    player_cursor = PlayerCursor(WORLD_SIZE_IN_BLOCKS / 2, 2.5, player)
     olympus = Olympus(
         block_world=[random.choice([Stone(), Dirt(), Grass(), Air()]) for _ in range(WORLD_SIZE_IN_BLOCKS)],
-        entities=[player],
+        entities=[player, player_cursor],
         input_state=InputState(),
+        cam=cam
     )
 
-    olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2)] = Air()
-    olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) - 1] = Air()
-    olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) + 1] = Air()
+    olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) - 3] = Air()
     olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) - 2] = Dirt()
+    olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) - 1] = Air()
+    olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2)] = Air()
+    olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) + 1] = Air()
     olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) + 2] = Dirt()
 
     for i in range(20):

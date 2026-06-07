@@ -1,8 +1,9 @@
 from scripts.CONSTANTS import BLOCK_SIZE_IN_PIXELS
+from scripts.entities.interfaces.IEntityRenderable import IEntityRenderable
 from scripts.rendering.super_sprite import GameSprite
 
 
-def render(screen, camera, gamesprites_and_pos: [GameSprite, int, int]):
+def render(screen, camera, gamesprites_and_pos):
     for g_sprite, x, y in gamesprites_and_pos:
         w_x, w_y = camera.world_to_screen((x, y))
         o_x, o_y = g_sprite.get_offset()
@@ -28,6 +29,8 @@ class RendererQueue:
 
     def add_entities(self, entities):
         for e in entities:
+            if not isinstance(e, IEntityRenderable):
+                continue
             spr = e.get_game_sprite()
             if spr is None:
                 continue
