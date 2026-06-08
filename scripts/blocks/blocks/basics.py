@@ -14,11 +14,11 @@ class Air(Block):
 class Stone(Block, ICollidable):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        a = pygame.image.load("assets/sprites/blocks/stone.png").convert_alpha()
+        self.sprite = GameSprite(a, (.5, .5), forced_height=BLOCK_SIZE_IN_PIXELS)
 
     def get_game_sprite(self):
-        a = pygame.Surface((BLOCK_SIZE_IN_PIXELS, BLOCK_SIZE_IN_PIXELS))
-        a.fill((120, 120, 120))
-        return GameSprite(a, (0.5, 0.5))
+        return self.sprite
 
 
 class Dirt(Block, ICollidable):

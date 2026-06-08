@@ -2,7 +2,7 @@ import pygame.transform
 
 
 class GameSprite:
-    def __init__(self, surface, anchor=(0, 0), scale=1, forced_height=None, forced_width=None):
+    def __init__(self, surface, anchor=(0, 0), scale=1, forced_height=None, forced_width=None, flip=True):
         """
         image: pygame.Surface
         anchor: (ax, ay) where 0..1 represent relative anchor
@@ -29,6 +29,7 @@ class GameSprite:
             self.h = h * scale
 
         self.surface = pygame.transform.scale(surface, (self.w, self.h))
+        self.surface = pygame.transform.flip(self.surface, flip, False)
         self.anchor = anchor
 
     def get_offset(self):

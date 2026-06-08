@@ -51,7 +51,7 @@ def main():
         olympus.entities.append(RedFlowerSpore(WORLD_SIZE_IN_BLOCKS / 2))
 
     while True:
-        dt = clock.tick(60) / 1000.0
+        dt = clock.tick(120) / 1000.0
 
         # EVENT LOOP
         olympus.input_state = InputState()

@@ -20,8 +20,7 @@ class Player(Entity, IEntityUpdatable, IEntityRenderable, IStamina):
         self.dir = 1
         self.dash_range = dash_range
 
-        a = pygame.image.load("assets/Statue1.png").convert_alpha()
-        self.game_sprite = GameSprite(a, (0.5, 0.5), forced_height=BLOCK_SIZE_IN_PIXELS * .9)
+        self.surface = pygame.image.load("assets/sprites/entities/Statue1.png").convert_alpha()
 
     def update(self, olympus: Olympus, dt: float):
         keys = pygame.key.get_pressed()
@@ -44,7 +43,7 @@ class Player(Entity, IEntityUpdatable, IEntityRenderable, IStamina):
             self.no_clip = not self.no_clip
 
     def get_game_sprite(self):
-        return self.game_sprite
+        return GameSprite(self.surface, (0.5, 0.5), forced_height=BLOCK_SIZE_IN_PIXELS * .9, flip=self.dir < 0)
 
     def player_movement(self, horizontal_axis, dashing_axis, dash_command, olympus, dt):
         if not dash_command:
