@@ -11,15 +11,17 @@ def process_block_world(olympus: Olympus, dt):
     for i, block in enumerate(world):
         if not isinstance(block, IUpdatable):
             continue
-        req = block.update(get_block(i - 1, world), get_block(i + 1, world), dt, i)
-        if req is not None:
+        reqs = block.update(get_block(i - 1, world), get_block(i + 1, world), dt, i)
+        if reqs is None or reqs == []:
+            continue
+        for req in reqs:
             change_request_queue.append(req)
 
     return change_request_queue
 
 
 def get_block(pos: int, block_world: list[Block]):
-    if pos < 0 or pos >= WORLD_SIZE_IN_BLOCKS:
-        return None
-    else:
-        return block_world[pos]
+    return block_world[pos] if is_inside_world(pos) else None
+
+def is_inside_world(pos: int):
+    return WORLD_SIZE_IN_BLOCKS > pos >= 0

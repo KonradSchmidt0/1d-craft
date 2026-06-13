@@ -30,6 +30,8 @@ def main():
     cam = Camera(WORLD_SIZE_IN_BLOCKS * BLOCK_SIZE_IN_PIXELS / 2 - WIDTH / 2, -HEIGHT * (3 / 5))
     renderer_queue = RendererQueue()
 
+    font = pygame.font.SysFont("Arial", 16)
+
     # --- World ---
     player = Player(3.5, WORLD_SIZE_IN_BLOCKS / 2, radius=0.2)
     player_cursor = PlayerCursor(WORLD_SIZE_IN_BLOCKS / 2, 2.5, player)
@@ -47,7 +49,7 @@ def main():
     olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) + 1] = Air()
     olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) + 2] = Dirt()
 
-    for i in range(20):
+    for i in range(0):
         olympus.entities.append(RedFlowerSpore(WORLD_SIZE_IN_BLOCKS / 2))
 
     while True:
@@ -73,10 +75,15 @@ def main():
         cam.x += (player.x * BLOCK_SIZE_IN_PIXELS - WIDTH / 2 - cam.x) * dt * 4
 
         # DRAW
-        renderer_queue.add_world(olympus.block_world)
-        renderer_queue.add_entities(olympus.entities)
+        renderer_queue.add_world(olympus.block_world, olympus.cam, WIDTH)
+        renderer_queue.add_entities(olympus.entities, olympus.cam, WIDTH)
 
         screen.fill((25, 25, 25))
+
+        text_surface = font.render("Fps: " + str(round(clock.get_fps())), True, (255, 255, 255))
+        screen.blit(text_surface, (5, 5))
+        text_surface = font.render("x: " + str(player.x.__round__(2)), True, (255, 255, 255))
+        screen.blit(text_surface, (5, 5 + 16 + 4))
 
         render(screen, cam, renderer_queue.pop_queue())
         pygame.display.flip()

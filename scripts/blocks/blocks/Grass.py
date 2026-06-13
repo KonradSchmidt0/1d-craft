@@ -17,14 +17,16 @@ class Grass(Block, IUpdatable, IFertile, ICollidable):
         self.timer = 0
         self.bias = random.uniform(1, 2)
 
-    def get_game_sprite(self):
         a = pygame.Surface((BLOCK_SIZE_IN_PIXELS, BLOCK_SIZE_IN_PIXELS))
         a.fill((100, 200, 70))
-        return GameSprite(a, (0.5, 0.5))
+        self.sprite = GameSprite(a, (0.5, 0.5))
+
+    def get_game_sprite(self):
+        return self.sprite
 
     def update(self, left_neigh, right_neigh, dt, pos):
         if not self.is_fertile_right_now():
-            return
+            return []
 
         neighs = random.choice([[left_neigh, right_neigh], [right_neigh, left_neigh]])
         at_least_one_dirt = False
@@ -38,10 +40,10 @@ class Grass(Block, IUpdatable, IFertile, ICollidable):
             self.timer += dt
         else:
             self.timer = 0
-            return
+            return []
 
         if self.timer <= 10 * self.bias:
-            return
+            return []
 
         self.timer = 0
         neighs_and_offsets = [(left_neigh, -1), (right_neigh, 1)]
@@ -50,4 +52,6 @@ class Grass(Block, IUpdatable, IFertile, ICollidable):
             if not isinstance(nei[0], Dirt):
                 continue
 
-            return ["spawn_block", Grass(), pos + nei[1]]
+            return [["spawn_block", pos + nei[1], Grass()]]
+
+        return []

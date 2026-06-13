@@ -24,8 +24,9 @@ class Stone(Block, ICollidable):
 class Dirt(Block, ICollidable):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-    def get_game_sprite(self):
         a = pygame.Surface((BLOCK_SIZE_IN_PIXELS, BLOCK_SIZE_IN_PIXELS))
         a.fill((130, 90, 70))
-        return GameSprite(a, (0.5, 0.5))
+        self.sprite = GameSprite(a, (0.5, 0.5))
+
+    def get_game_sprite(self):
+        return self.sprite

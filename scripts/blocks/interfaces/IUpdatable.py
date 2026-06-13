@@ -10,5 +10,5 @@ class IUpdatable:
                right_neigh: Block | None,
                dt: float,
                pos: int
-               ):
+               ) -> list[list] | None:
         pass

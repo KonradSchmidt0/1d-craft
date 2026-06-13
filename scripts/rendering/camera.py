@@ -2,7 +2,7 @@ import pygame
 
 from scripts.CONSTANTS import BLOCK_SIZE_IN_PIXELS
 
-
+# Unless specified otherwise, all positions are in pixels, not meters
 class Camera:
     def __init__(self, x=0, y=0):
         self.x = x

@@ -1,1 +1,1 @@
-**1 dimentional block game**
+**1 dimensional block game**

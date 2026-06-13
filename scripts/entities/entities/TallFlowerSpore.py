@@ -20,7 +20,7 @@ class RedFlowerSpore(Entity, IEntityUpdatable, IEntityRenderable):
         self.timer = 0
         self.maxTimer = random.uniform(4, 20)
 
-        a = pygame.Surface((BLOCK_SIZE_IN_PIXELS * 0.1, BLOCK_SIZE_IN_PIXELS * 0.1))
+        a = pygame.Surface((BLOCK_SIZE_IN_PIXELS * 0.15, BLOCK_SIZE_IN_PIXELS * 0.15))
         a.fill((50, 128, 50))
         a.set_alpha(125)
         self.game_sprite = GameSprite(a, (0.5, 0.5))
@@ -30,7 +30,7 @@ class RedFlowerSpore(Entity, IEntityUpdatable, IEntityRenderable):
         self.timer += dt
 
         if self.timer < self.maxTimer:
-            return
+            return []
 
         o = [["destroy_self", self]]
 
@@ -43,7 +43,7 @@ class RedFlowerSpore(Entity, IEntityUpdatable, IEntityRenderable):
         for offset in offsets:
             if not isinstance(get_block(offset, olympus.block_world), Dirt):
                 continue
-            o.append(["spawn_block", LongFlower(), int_x])
+            o.append(["place_block", int_x, LongFlower()])
             print("Plant seeded at", int_x)
             break
 
