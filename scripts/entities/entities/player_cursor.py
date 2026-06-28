@@ -3,7 +3,6 @@ from pygame import math
 
 from scripts.CONSTANTS import BLOCK_SIZE_IN_PIXELS, WORLD_SIZE_IN_BLOCKS
 from scripts.Olympus import Olympus
-from scripts.blocks.blocks.basics import Stone
 from scripts.entities.Entity import Entity
 from scripts.entities.entities.player import Player
 from scripts.entities.interfaces.IEntityRenderable import IEntityRenderable
@@ -37,7 +36,8 @@ class PlayerCursor(Entity, IEntityUpdatable, IEntityRenderable):
         if pygame.mouse.get_pressed()[0]:
             return [["destroy_block", self.x]]
         elif pygame.mouse.get_pressed()[2]:
-            return [["place_block", self.x, Stone()]]
+            block_class = olympus.user_block_provider.get_current_chosen_block()
+            return [["place_block", self.x, block_class()]]
 
         return None
 

@@ -1,4 +1,5 @@
 import random
+
 import pygame
 
 from scripts.CONSTANTS import BLOCK_SIZE_IN_PIXELS

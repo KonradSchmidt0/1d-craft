@@ -13,6 +13,7 @@ from scripts.entities.entities.player import Player
 from scripts.rendering.camera import Camera
 from scripts.rendering.renderer import render, RendererQueue
 from scripts.systems.InputState import InputState
+from scripts.systems.UserBlockProvider import UserBlockProvider
 from scripts.systems.block_world import process_block_world
 from scripts.systems.entity_world import process_entities
 from scripts.systems.req_system import process_reqs
@@ -39,17 +40,17 @@ def main():
         block_world=[random.choice([Stone(), Dirt(), Grass(), Air()]) for _ in range(WORLD_SIZE_IN_BLOCKS)],
         entities=[player, player_cursor],
         input_state=InputState(),
-        cam=cam
+        cam=cam,
+        user_block_provider=UserBlockProvider(),
     )
 
-    olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) - 3] = Air()
     olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) - 2] = Dirt()
     olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) - 1] = Air()
     olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2)] = Air()
     olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) + 1] = Air()
     olympus.block_world[round(WORLD_SIZE_IN_BLOCKS / 2) + 2] = Dirt()
 
-    for i in range(0):
+    for i in range(20):
         olympus.entities.append(RedFlowerSpore(WORLD_SIZE_IN_BLOCKS / 2))
 
     while True:
@@ -63,8 +64,12 @@ def main():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
+                if pygame.K_1 <= event.key <= pygame.K_9:
+                    olympus.user_block_provider.handle_key_press(event.key - pygame.K_0)
                 if event.key == pygame.K_p:
                     olympus.input_state.no_clip_press = True
+            elif event.type == pygame.MOUSEWHEEL:
+                olympus.user_block_provider.handle_scroll(event.y)
 
         # LOGIC
         requests = process_block_world(olympus, dt)

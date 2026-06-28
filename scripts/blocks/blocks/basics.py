@@ -30,3 +30,12 @@ class Dirt(Block, ICollidable):
 
     def get_game_sprite(self):
         return self.sprite
+
+class Wall(Block):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        a = pygame.image.load("assets/sprites/blocks/WoodenTiles.png").convert_alpha()
+        self.sprite = GameSprite(a, (.5, .5), forced_height=BLOCK_SIZE_IN_PIXELS)
+
+    def get_game_sprite(self):
+        return self.sprite
